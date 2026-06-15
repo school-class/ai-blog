@@ -385,7 +385,7 @@ footer a {
 .btn {
     display: inline-block;
     background-color: var(--primary-color);
-    color: #fff !important;
+    color: #fff;
     padding: 0.8rem 1.8rem;
     border-radius: 0.75rem;
     text-decoration: none;
@@ -413,6 +413,26 @@ footer a {
 }
 
 @media (max-width: 640px) {
+    .header-inner {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 0.5rem 0;
+    }
+
+    nav ul {
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    nav a {
+        font-size: 0.85rem;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
     article {
         padding: 2rem 1.5rem;
     }
