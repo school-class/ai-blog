@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>満州事変クイズ</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #d35400;
+            --success-color: #27ae60;
+            --error-color: #c0392b;
+            --bg-color: #f4f6f7;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #8e44ad, #c0392b);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 24px;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .quiz-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .question-num {
+            font-weight: bold;
+            color: var(--accent-color);
+            font-size: 14px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .question-text {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 15px 0;
+        }
+
+        .option-item {
+            margin-bottom: 10px;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            padding: 12px 15px;
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background-color: #e9ecef;
+            border-color: #ced4da;
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+            color: #6c757d;
+        }
+
+        .option-btn.correct {
+            background-color: #d4edda;
+            border-color: var(--success-color);
+            color: #155724;
+            font-weight: bold;
+        }
+
+        .option-btn.incorrect {
+            background-color: #f8d7da;
+            border-color: var(--error-color);
+            color: #721c24;
+        }
+
+        .hint-block {
+            margin-bottom: 15px;
+        }
+
+        .hint-btn {
+            background: none;
+            border: none;
+            color: #7f8c8d;
+            cursor: pointer;
+            font-size: 13px;
+            text-decoration: underline;
+            padding: 0;
+        }
+
+        .hint-text {
+            display: none;
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 13px;
+            margin-top: 5px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .result-box {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .result-box.show {
+            display: block;
+        }
+
+        .result-box.correct-box {
+            background-color: #e2f0d9;
+            color: #2c5217;
+            border: 1px solid #c5e1b2;
+        }
+
+        .result-box.incorrect-box {
+            background-color: #fbe5e5;
+            color: #631c1c;
+            border: 1px solid #f3c2c2;
+        }
+
+        .result-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+
+        .score-section {
+            text-align: center;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .score-num {
+            font-size: 48px;
+            font-weight: bold;
+            color: #f1c40f;
+            margin: 10px 0;
+        }
+
+        .restart-btn {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .submit-all-btn {
+            display: block;
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .submit-all-btn:hover {
+            background-color: #34495e;
+        }
+
+        .ad-container {
+            text-align: center;
+            margin: 20px 0 35px 0;
+            min-height: 90px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>満州事変クイズ</h1>
+        <p>1931年の事件勃発から、満州国建国、五・一五事件、そして日本の国際連盟脱退までの歴史の流れを深く学ぶ10問です。</p>
+    </header>
+
+    <div id="quiz-container">
+        <!-- 第1問 -->
+        <div class="quiz-card" id="card-0">
+            <span class="question-num">第 1 問</span>
+            <p class="question-text">1931年9月、満州事変の直接の引き金となった、南満州鉄道の線路が爆破された事件を何というでしょう？</p>
+            <div class="hint-block">
+                <button class="hint-btn" onclick="toggleHint(0)">💡 ヒントを表示</button>
+                <div class="hint-text" id="hint-0">奉天（現在の瀋陽）の郊外で起きた事件です。日本の関東軍による自作自演でしたが、当時は「中国軍のしわざ」と発表されました。</div>
+            </div>
+            <ul class="options-list">
+                <li class="option-item"><button class="option-btn" id="btn-0-0" onclick="selectOption(0, 0)">A: 盧溝橋事件（ろこうきょうじけん）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-0-1" onclick="selectOption(0, 1)">B: 柳条湖事件（りゅうじょうこじけん）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-0-2" onclick="selectOption(0, 2)">C: 済南事件（さいなんじけん）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-0-3" onclick="selectOption(0, 3)">D: 万宝山事件（まんぽうざんじけん）</button></li>
+            </ul>
+            <div class="result-box" id="result-0"></div>
+        </div>
+
+        <!-- 第2問 -->
+        <div class="quiz-card" id="card-1">
+            <span class="question-num">第 2 問</span>
+            <p class="question-text">満州事変を計画・主導し、のちに「満州国の陰の支配者」とも呼ばれた、当時の関東軍の高級参謀は誰でしょう？</p>
+            <div class="hint-block">
+                <button class="hint-btn" onclick="toggleHint(1)">💡 ヒントを表示</button>
+                <div class="hint-text" id="hint-1">石原莞爾（いしわらかんじ）とともに作戦を立てた人物で、独自の「満蒙問題解決策」を持っていました。</div>
+            </div>
+            <ul class="options-list">
+                <li class="option-item"><button class="option-btn" id="btn-1-0" onclick="selectOption(1, 0)">A: 板垣征四郎（いたがきせいしろう）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-1-1" onclick="selectOption(1, 1)">B: 東条英機（とうじょうひでき）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-1-2" onclick="selectOption(1, 2)">C: 岡村寧次（おかむらやすじ）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-1-3" onclick="selectOption(1, 3)">D: 荒木貞夫（あらきさだお）</button></li>
+            </ul>
+            <div class="result-box" id="result-1"></div>
+        </div>
+
+        <!-- 第3問 -->
+        <div class="quiz-card" id="card-2">
+            <span class="question-num">第 3 問</span>
+            <p class="question-text">満州事変が起きた当時、政府の方針としては「事件をこれ以上広げない（不拡大方針）」をとろうとしていた、日本の首相は誰でしょう？</p>
+            <div class="hint-block">
+                <button class="hint-btn" onclick="toggleHint(2)">💡 ヒントを表示</button>
+                <div class="hint-text" id="hint-2">「ライオン宰相」と呼ばれた浜口雄幸首相のあとを継いだ、立憲民政党の首相です。軍部の暴走を抑えることができませんでした。</div>
+            </div>
+            <ul class="options-list">
+                <li class="option-item"><button class="option-btn" id="btn-2-0" onclick="selectOption(2, 0)">A: 犬養毅（いぬかいつよし）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-2-1" onclick="selectOption(2, 1)">B: 若槻礼次郎（わかつきれいじろう）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-2-2" onclick="selectOption(2, 2)">C: 斎藤実（さいとうまこと）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-2-3" onclick="selectOption(2, 3)">D: 岡田啓介（おかだけですけ）</button></li>
+            </ul>
+            <div class="result-box" id="result-2"></div>
+        </div>
+
+        <!-- 【指定位置①】第3問の後の広告 -->
+        <div class="ad-container">
+            <!-- admax -->
+            <script src="https://adm.shinobi.jp/s/8883b8c96c219279b7215cf3521e8aed"></script>
+            <!-- admax -->
+        </div>
+
+        <!-- 第4問 -->
+        <div class="quiz-card" id="card-3">
+            <span class="question-num">第 4 問</span>
+            <p class="question-text">1932年3月に関東軍が建国した「満州国」の首都は、現在の長春（ちょうしゅん）ですが、当時は何と呼ばれていたでしょう？</p>
+            <div class="hint-block">
+                <button class="hint-btn" onclick="toggleHint(3)">💡 ヒントを表示</button>
+                <div class="hint-text" id="hint-3">「新しい京（みやこ）」という意味が込められた都市名です。日本によって急速に近代的な都市開発が進められました。</div>
+            </div>
+            <ul class="options-list">
+                <li class="option-item"><button class="option-btn" id="btn-3-0" onclick="selectOption(3, 0)">A: 奉天（ほうてん）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-3-1" onclick="selectOption(3, 1)">B: 新京（しんきょう）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-3-2" onclick="selectOption(3, 2)">C: 哈爾浜（ハルビン）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-3-3" onclick="selectOption(3, 3)">D: 吉林（きつりん）</button></li>
+            </ul>
+            <div class="result-box" id="result-3"></div>
+        </div>
+
+        <!-- 第5問 -->
+        <div class="quiz-card" id="card-4">
+            <span class="question-num">第 5 問</span>
+            <p class="question-text">満州国の建国理念として、日本、中国、朝鮮、満州、蒙古の5つの民族が協力して楽園を作ろうというスローガンを何といったでしょう？</p>
+            <div class="hint-block">
+                <button class="hint-btn" onclick="toggleHint(4)">💡 ヒントを表示</button>
+                <div class="hint-text" id="hint-4">「〇〇協和」という四字熟語です。理想的な言葉でしたが、実際には日本の関東軍が実権を握っていました。</div>
+            </div>
+            <ul class="options-list">
+                <li class="option-item"><button class="option-btn" id="btn-4-0" onclick="selectOption(4, 0)">A: 五族協和（ごぞくきょうわ）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-4-1" onclick="selectOption(4, 1)">B: 王道楽土（おうどうらくど）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-4-2" onclick="selectOption(4, 2)">C: 大東亜共栄（だいとうあきょうえい）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-4-3" onclick="selectOption(4, 3)">D: 日満親善（にちまんしんぜん）</button></li>
+            </ul>
+            <div class="result-box" id="result-4"></div>
+        </div>
+
+        <!-- 第6問 -->
+        <div class="quiz-card" id="card-5">
+            <span class="question-num">第 6 問</span>
+            <p class="question-text">満州国の承認を渋り、国際社会との協調を模索したために、1932年の五・一五事件で海軍青年将校らに暗殺された日本の首相は誰でしょう？</p>
+            <div class="hint-block">
+                <button class="hint-btn" onclick="toggleHint(5)">💡 ヒントを表示</button>
+                <div class="hint-text" id="hint-5">「話せば分かる」と説得を試みましたが、「問答無用」と撃たれてしまいました。これによって日本の政党内閣の時代が終わります。</div>
+            </div>
+            <ul class="options-list">
+                <li class="option-item"><button class="option-btn" id="btn-5-0" onclick="selectOption(5, 0)">A: 高橋是清（たかはしこれきよ）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-5-1" onclick="selectOption(5, 1)">B: 犬養毅（いぬかいつよし）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-5-2" onclick="selectOption(5, 2)">C: 加藤高明（かとうたかあき）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-5-3" onclick="selectOption(5, 3)">D: 近衛文麿（このえふみまろ）</button></li>
+            </ul>
+            <div class="result-box" id="result-5"></div>
+        </div>
+
+        <!-- 【指定位置②】第6問の後の広告 -->
+        <div class="ad-container">
+            <!-- admax -->
+            <script src="https://adm.shinobi.jp/s/8883b8c96c219279b7215cf3521e8aed"></script>
+            <!-- admax -->
+        </div>
+
+        <!-- 第7問 -->
+        <div class="quiz-card" id="card-6">
+            <span class="question-num">第 7 問</span>
+            <p class="question-text">犬養毅首相の暗殺後に誕生し、軍部の圧力に押されて「日満議定書」を交わし、満州国を正式に承認した日本の内閣は何内閣でしょう？</p>
+            <div class="hint-block">
+                <button class="hint-btn" onclick="toggleHint(6)">💡 ヒントを表示</button>
+                <div class="hint-text" id="hint-6">海軍大将（出身は熊本県）であり、政党に所属しない挙国一致（きょこくいっち）内閣を組織しました。</div>
+            </div>
+            <ul class="options-list">
+                <li class="option-item"><button class="option-btn" id="btn-6-0" onclick="selectOption(6, 0)">A: 斎藤実（さいとうまこと）内閣</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-6-1" onclick="selectOption(6, 1)">B: 岡田啓介内閣</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-6-2" onclick="selectOption(6, 2)">C: 宇垣一成内閣</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-6-3" onclick="selectOption(6, 3)">D: 広田弘毅内閣</button></li>
+            </ul>
+            <div class="result-box" id="result-6"></div>
+        </div>
+
+        <!-- 第8問 -->
+        <div class="quiz-card" id="card-7">
+            <span class="question-num">第 8 問</span>
+            <p class="question-text">中国（中華民国）の訴えにより、国際連盟が現地に派遣した「リットン調査団」の団長ヴィクター・リットンはどこの国の貴族だったでしょう？</p>
+            <div class="hint-block">
+                <button class="hint-btn" onclick="toggleHint(7)">💡 ヒントを表示</button>
+                <div class="hint-text" id="hint-7">当時、世界最大の植民地を誇っていたヨーロッパの島国です。リットン自身はインドの総督を務めた経験もありました。</div>
+            </div>
+            <ul class="options-list">
+                <li class="option-item"><button class="option-btn" id="btn-7-0" onclick="selectOption(7, 0)">A: アメリカ</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-7-1" onclick="selectOption(7, 1)">B: フランス</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-7-2" onclick="selectOption(7, 2)">C: イギリス</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-7-3" onclick="selectOption(7, 3)">D: ドイツ</button></li>
+            </ul>
+            <div class="result-box" id="result-7"></div>
+        </div>
+
+        <!-- 第9問 -->
+        <div class="quiz-card" id="card-8">
+            <span class="question-num">第 9 問</span>
+            <p class="question-text">1933年2月、国際連盟の総会において、満州国を認めず日本軍の撤退を求める勧告案が審議されました。このときの投票結果（賛成対反対）はどうだったでしょう？</p>
+            <div class="hint-block">
+                <button class="hint-btn" onclick="toggleHint(8)">💡 ヒントを表示</button>
+                <div class="hint-text" id="hint-8">日本以外のほぼすべての国が勧告に賛成しました。反対したのは日本1カ国のみ、棄権が1カ国（シャム、現在のタイ）でした。</div>
+            </div>
+            <ul class="options-list">
+                <li class="option-item"><button class="option-btn" id="btn-8-0" onclick="selectOption(8, 0)">A: 賛成21、反対21（同数で否決）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-8-1" onclick="selectOption(8, 1)">B: 賛成42、反対1（圧倒的多数で可決）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-8-2" onclick="selectOption(8, 2)">C: 賛成30、反対12（可決）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-8-3" onclick="selectOption(8, 3)">D: 全会一致で可決（反対0）</button></li>
+            </ul>
+            <div class="result-box" id="result-8"></div>
+        </div>
+
+        <!-- 第10問 -->
+        <div class="quiz-card" id="card-9">
+            <span class="question-num">第 10 問</span>
+            <p class="question-text">国際連盟で満州国不承認の勧告案が可決された際、日本の全権大使として総会会場を退場し、日本の国際的孤立を象徴することになった外交官は誰でしょう？</p>
+            <div class="hint-block">
+                <button class="hint-btn" onclick="toggleHint(9)">💡 ヒントを表示</button>
+                <div class="hint-text" id="hint-9">のちに第二次世界大戦直前、ドイツ・イタリアとの間で「日独伊三国同盟」を結ぶ際にも外務大臣として深く関わった人物です。</div>
+            </div>
+            <ul class="options-list">
+                <li class="option-item"><button class="option-btn" id="btn-9-0" onclick="selectOption(9, 0)">A: 幣原喜重郎（しではらきじゅうろう）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-9-1" onclick="selectOption(9, 1)">B: 松岡洋右（まつおかようすけ）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-9-2" onclick="selectOption(9, 2)">C: 陸奥宗光（むつむねみつ）</button></li>
+                <li class="option-item"><button class="option-btn" id="btn-9-3" onclick="selectOption(9, 3)">D: 小村寿太郎（こむらじゅたろう）</button></li>
+            </ul>
+            <div class="result-box" id="result-9"></div>
+        </div>
+    </div>
+
+    <button id="submit-btn" class="submit-all-btn" onclick="calculateScore()">採点する</button>
+
+    <div id="score-section" class="score-section">
+        <h2>結果発表</h2>
+        <p>あなたの正解数は...</p>
+        <div class="score-num" id="score-display">0 / 10</div>
+        <p id="score-comment"></p>
+        <button class="restart-btn" onclick="restartQuiz()">もう一度挑戦する</button>
+    </div>
+</div>
+
+<script>
+const quizMetaData = [
+    { correct: 1, rationale: "柳条湖事件（りゅうじょうこじけん）です。1931年9月18日、奉天郊外の柳条湖で南満州鉄道の線路が爆破され、関東軍はこれを中国軍の犯行だとして一斉に攻撃を開始しました。" },
+    { correct: 0, rationale: "板垣征四郎（いたがきせいしろう）です。作戦参謀の石原莞爾らとともに、政府の許可を得ないまま独断で満州全土の占領へと動きました。" },
+    { correct: 1, rationale: "若槻礼次郎（わかつきれいじろう）内閣です。政府は「事態をこれ以上大きくしない」と決定したものの、現地軍（関東軍）はそれを完全に無視して戦線を拡大させました。" },
+    { correct: 1, rationale: "新京（しんきょう）です。日本（関東軍）は中国の旧清朝最後の皇帝・溥儀（ふぎ）をトップに立て、長春を「新京」と改名して近代的な大規模都市計画を進めました。" },
+    { correct: 0, rationale: "五族協和です。満州国の表向きの理想（スローガン）でしたが、実際の役職や実権はすべて日本人が握る「傀儡（かいらい）国家」でした。" },
+    { correct: 1, rationale: "犬養毅首相です。満州国の承認に慎重だった犬養首相が暗殺（五・一五事件）されたことで、日本国内の政党政治はストップし、軍部の暴走を止められない政治体制へと変わっていきました。" },
+    { correct: 0, rationale: "斎藤実内閣です。五・一五事件のあとに作られた挙国一致（連立）内閣で、1932年9月に「日満議定書」を結んで満州国を正式に国家として認めました。" },
+    { correct: 2, rationale: "イギリスです。国際連盟が派遣したリットン調査団（英・米・仏・独・伊の5カ国で構成）の団長リットン卿はイギリスの貴族でした。" },
+    { correct: 1, rationale: "賛成42、反対1（日本のみ）でした。リットン調査団の報告書をもとに「日本の軍事行動は正当な自衛とは認められない、満州国は認めない」という勧告案が圧倒的多数で可決されました。" },
+    { correct: 1, rationale: "松岡洋右（まつおかようすけ）です。総会での可決（1933年2月）を受け、日本側の全権だった松岡は「もはや日本政府は連盟と協力する余地がない」と宣言して退場し、同年3月に国際連盟を正式に脱退しました。" }
+];
+
+let userAnswers = new Array(quizMetaData.length).fill(null);
+
+function selectOption(qIdx, oIdx) {
+    if (document.getElementById('score-section').style.display === 'block') return;
+
+    for (let i = 0; i < 4; i++) {
+        const btn = document.getElementById(`btn-${qIdx}-${i}`);
+        if (i === oIdx) {
+            btn.style.borderColor = 'var(--primary-color)';
+            btn.style.backgroundColor = '#e9ecef';
+            btn.style.fontWeight = 'bold';
+        } else {
+            btn.style.borderColor = '#e9ecef';
+            btn.style.backgroundColor = '#f8f9fa';
+            btn.style.fontWeight = 'normal';
+        }
+    }
+    userAnswers[qIdx] = oIdx;
+}
+
+function toggleHint(qIdx) {
+    const hintDiv = document.getElementById(`hint-${qIdx}`);
+    hintDiv.style.display = hintDiv.style.display === 'block' ? 'none' : 'block';
+}
+
+function calculateScore() {
+    const unanswered = userAnswers.map((ans, idx) => ans === null ? idx + 1 : null).filter(v => v !== null);
+    if (unanswered.length > 0) {
+        alert(`未回答の問題があります。第 ${unanswered.join(', ')} 問に答えてください。`);
+        return;
+    }
+
+    let score = 0;
+
+    quizMetaData.forEach((q, qIdx) => {
+        const userAns = userAnswers[qIdx];
+        const resultBox = document.getElementById(`result-${qIdx}`);
+        
+        for (let i = 0; i < 4; i++) {
+            document.getElementById(`btn-${qIdx}-${i}`).disabled = true;
+        }
+
+        const selectedBtn = document.getElementById(`btn-${qIdx}-${userAns}`);
+        const correctBtn = document.getElementById(`btn-${qIdx}-${q.correct}`);
+
+        if (userAns === q.correct) {
+            score++;
+            selectedBtn.className = 'option-btn correct';
+            resultBox.className = 'result-box show correct-box';
+            resultBox.innerHTML = `<div class="result-title">⭕ 正解！</div><div>${q.rationale}</div>`;
+        } else {
+            selectedBtn.className = 'option-btn incorrect';
+            correctBtn.className = 'option-btn correct';
+            resultBox.className = 'result-box show incorrect-box';
+            resultBox.innerHTML = `<div class="result-title">❌ 不正解...（正解は ${String.fromCharCode(65 + q.correct)}）</div><div>${q.rationale}</div>`;
+        }
+    });
+
+    document.getElementById('submit-btn').style.display = 'none';
+    const scoreSection = document.getElementById('score-section');
+    scoreSection.style.display = 'block';
+    document.getElementById('score-display').innerText = `${score} / ${quizMetaData.length}`;
+
+    let comment = '';
+    if (score === 10) comment = '完璧！満州事変の始まりから、国際連盟脱退へ至るまでの日本と国際社会の動きをすべて正確に網羅できています！';
+    else if (score >= 7) comment = '素晴らしい！柳条湖事件や五・一五事件、リットン調査団など、事変にまつわる重要事項がしっかり身についています。';
+    else if (score >= 4) comment = '合格点です！「柳条湖事件（満州事変）」と、その数年後に全面戦争へつながる「盧溝橋事件（日中戦争）」の混同に気をつけて復習してみましょう。';
+    else comment = '関東軍の独断暴走が、国内政治のテロを引き起こし、やがて世界からの孤立へ繋がっていくという「因果関係のドラマ」を意識してもう一度チャレンジだ！';
+    
+    document.getElementById('score-comment').innerText = comment;
+    scoreSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+function restartQuiz() {
+    userAnswers = new Array(quizMetaData.length).fill(null);
+    document.getElementById('submit-btn').style.display = 'block';
+    document.getElementById('score-section').style.display = 'none';
+    
+    quizMetaData.forEach((q, qIdx) => {
+        const resultBox = document.getElementById(`result-${qIdx}`);
+        resultBox.className = 'result-box';
+        resultBox.innerHTML = '';
+        
+        for (let i = 0; i < 4; i++) {
+            const btn = document.getElementById(`btn-${qIdx}-${i}`);
+            btn.disabled = false;
+            btn.className = 'option-btn';
+            btn.style = '';
+        }
+        document.getElementById(`hint-${qIdx}`).style.display = 'none';
+    });
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
