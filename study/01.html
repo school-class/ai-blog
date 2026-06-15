@@ -356,12 +356,12 @@ const quizData = [
 function initQuiz() {
     const container = document.getElementById('quiz-container');
     container.innerHTML = '';
-    
+
     quizData.forEach((q, qIdx) => {
         const card = document.createElement('div');
         card.className = 'quiz-card';
         card.id = `card-${qIdx}`;
-        
+
         let optionsHTML = '';
         q.options.forEach((opt, oIdx) => {
             optionsHTML += `
@@ -376,16 +376,23 @@ function initQuiz() {
         card.innerHTML = `
             <span class="question-num">第 ${qIdx + 1} 問</span>
             <p class="question-text">${q.question}</p>
-            <div class="hint-block">
-                <button class="hint-btn" onclick="toggleHint(${qIdx})">💡 ヒントを表示</button>
-                <div class="hint-text" id="hint-${qIdx}">${q.hint}</div>
-            </div>
-            <ul class="options-list">
-                ${optionsHTML}
-            </ul>
-            <div class="result-box" id="result-${qIdx}"></div>
+            <ul class="options-list">${optionsHTML}</ul>
         `;
+
         container.appendChild(card);
+
+        // ⭐ここがポイント
+        if (qIdx === 2 || qIdx === 5) {
+            const ad = document.createElement('div');
+            ad.className = 'quiz-card';
+            ad.style.textAlign = 'center';
+
+            const script = document.createElement('script');
+            script.src = 'https://adm.shinobi.jp/s/899802e9af0817d105f0e1d70c0ba386';
+
+            ad.appendChild(script);
+            container.appendChild(ad);
+        }
     });
 }
 
@@ -489,9 +496,6 @@ function restartQuiz() {
 
 // 初回実行
 window.onload = initQuiz;
-const cards = document.querySelectorAll('.quiz-card');
-cards[2].after(document.getElementById('ad1'));
-cards[5].after(document.getElementById('ad2'));
 </script>
 
 </body>
