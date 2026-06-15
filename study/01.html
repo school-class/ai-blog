@@ -1,0 +1,475 @@
+ html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世界恐慌の歴史と影響クイズ</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #34495e;
+            --success-color: #27ae60;
+            --error-color: #c0392b;
+            --bg-color: #f4f6f7;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 24px;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .quiz-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .question-num {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 14px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .question-text {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 15px 0;
+        }
+
+        .option-item {
+            margin-bottom: 10px;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            padding: 12px 15px;
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background-color: #e9ecef;
+            border-color: #ced4da;
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+            color: #6c757d;
+        }
+
+        /* 正解・不正解のスタイル */
+        .option-btn.correct {
+            background-color: #d4edda;
+            border-color: var(--success-color);
+            color: #155724;
+            font-weight: bold;
+        }
+
+        .option-btn.incorrect {
+            background-color: #f8d7da;
+            border-color: var(--error-color);
+            color: #721c24;
+        }
+
+        .hint-block {
+            margin-bottom: 15px;
+        }
+
+        .hint-btn {
+            background: none;
+            border: none;
+            color: #7f8c8d;
+            cursor: pointer;
+            font-size: 13px;
+            text-decoration: underline;
+            padding: 0;
+        }
+
+        .hint-text {
+            display: none;
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 13px;
+            margin-top: 5px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .result-box {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .result-box.show {
+            display: block;
+        }
+
+        .result-box.correct-box {
+            background-color: #e2f0d9;
+            color: #2c5217;
+            border: 1px solid #c5e1b2;
+        }
+
+        .result-box.incorrect-box {
+            background-color: #fbe5e5;
+            color: #631c1c;
+            border: 1px solid #f3c2c2;
+        }
+
+        .result-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+
+        .score-section {
+            text-align: center;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .score-section h2 {
+            margin-top: 0;
+        }
+
+        .score-num {
+            font-size: 48px;
+            font-weight: bold;
+            color: #f1c40f;
+            margin: 10px 0;
+        }
+
+        .restart-btn {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: background 0.2s;
+        }
+
+        .restart-btn:hover {
+            background-color: #219653;
+        }
+
+        .submit-all-btn {
+            display: block;
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .submit-all-btn:hover {
+            background-color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>世界恐慌の歴史と影響クイズ</h1>
+        <p>1929年に始まった大恐慌の原因、各国の対策、世界に与えた影響を学ぶ10問のクイズです。</p>
+    </header>
+
+    <div id="quiz-container"></div>
+    <!-- admax -->
+<script src="https://adm.shinobi.jp/s/899802e9af0817d105f0e1d70c0ba386"></script>
+<!-- admax -->
+
+    <button id="submit-btn" class="submit-all-btn" onclick="calculateScore()">採点する</button>
+
+    <div id="score-section" class="score-section">
+        <h2>結果発表</h2>
+        <p>あなたの正解数は...</p>
+        <div class="score-num" id="score-display">0 / 10</div>
+        <p id="score-comment"></p>
+        <button class="restart-btn" onclick="restartQuiz()">もう一度挑戦する</button>
+    </div>
+</div>
+
+<script>
+const quizData = [
+    {
+        question: "世界恐慌の引き金となった、1929年10月24日のニューヨーク株式市場における株価大暴落の日は、何と呼ばれているでしょう？",
+        options: ["暗黒の木曜日（ブラック・サーズデー）", "血の水曜日（ブラッディ・ウェンズデー）", "悲劇の金曜日（ブラック・フライデー）", "暗黒の月曜日（ブラック・マンデー）"],
+        correct: 0,
+        hint: "大暴落が始まった「曜日」に注目してみましょう。",
+        rationale: "1929年10月24日は木曜日であり、この日の株価大暴落が世界恐慌の始まりとされているためこう呼ばれます。「ブラック・マンデー」は1987年の暴落を指します。"
+    },
+    {
+        question: "世界恐慌が発生した当時、アメリカの政権を担っていた大統領で、自由放任主義的な立場から効果的な回復策をとれなかった人物は誰でしょう？",
+        options: ["ウィルソン", "フーヴァー", "フランクリン・ローズベルト", "トルーマン"],
+        correct: 1,
+        hint: "後に大恐慌による失業者たちが作った簡易宿泊所の街は、彼の名前をもじって「フーヴァーヴィル」と呼ばれました。",
+        rationale: "フーヴァー大統領は「繁栄は角を曲がったところにある」と楽観視し、政府の積極介入を遅らせたため批判を浴びました。次の大統領がローズベルトです。"
+    },
+    {
+        question: "1933年にアメリカの大統領に就任したフランクリン・ローズベルトが、景気回復のために行った一連の積極的な経済介入政策を何というでしょう？",
+        options: ["ブロック経済政策", "五カ年計画", "ニューディール政策", "隔離政策"],
+        correct: 2,
+        hint: "「新規まき直し」や「新取引」を意味する英語の政策名です。",
+        rationale: "ニューディール政策（New Deal）は、政府が積極的に市場や雇用に関与して資本主義の修正を図った政策です。ブロック経済は英仏、五カ年計画はソ連の政策です。"
+    },
+    {
+        question: "アメリカのニューディール政策の一環として行われた、地域の総合開発と失業対策を兼ねた巨大な公共事業（地方開発公社）は何でしょう？",
+        options: ["AAA（農業調整法）", "NIRA（全国産業復興法）", "TVA（テネシー川流域開発公社）", "ワグナー法"],
+        correct: 2,
+        hint: "川の流れをコントロールするダム建設を中心とした、大規模な地域開発事業です。",
+        rationale: "TVAはテネシー川流域に多数のダムを建設し、治水・発電を行うとともに膨大な雇用を生み出した代表的な公共事業です。AAAは農業、NIRAは工業向けの法律です。"
+    },
+    {
+        question: "イギリスやフランスなどの「持てる国」が、自国と植民地間の関税を下げ、他国からの輸入品に高い関税を課して締め出した閉鎖的な経済体制を何というでしょう？",
+        options: ["自由貿易体制", "ブロック経済", "金本位制", "プランテーション経済"],
+        correct: 1,
+        hint: "他国を排除して自国内のグループを「ブロック」することから名付けられました。",
+        rationale: "自国と植民地を一つの「ブロック（塊）」として保護し、排他的に経済を回そうとした仕組みです。これにより市場を締め出された国々との対立が深まりました。"
+    },
+    {
+        question: "1932年、イギリスがブロック経済を構築する方針を固めた、自治領を交えて開かれた会議を何というでしょう？",
+        options: ["ロンドン海軍軍縮会議", "オタワ連邦経済会議", "パリ和平会議", "ヴェルサイユ会議"],
+        correct: 1,
+        hint: "カナダの首都で開催された会議です。",
+        rationale: "カナダのオタワで開催され、イギリス帝国域内での特恵関税（イギリス連邦内の関税を引き下げる制度）を確立し、ブロック経済（スターリング・ブロック）を形成しました。"
+    },
+    {
+        question: "世界恐慌の中で、独自の「五カ年計画」による社会主義的な計画経済を進めていたため、その影響をほとんど受けず急速な工業化を遂げた国はどこでしょう？",
+        options: ["ドイツ", "ソ連（ソビエト社会主義共和国連邦）", "イタリア", "日本"],
+        correct: 1,
+        hint: "当時は世界唯一の「社会主義国」だった国家です。",
+        rationale: "ソ連は世界的な資本主義経済の市場ネットワークから独立した計画経済を行っていたため、恐慌の直接的な被害を免れ、重工業化を推し進めることに成功しました。"
+    },
+    {
+        question: "世界恐慌による経済的混乱や大量の失業者が背景となり、ドイツで急速に支持を拡大して1933年に政権を握ったヒトラー率いる政党は何でしょう？",
+        options: ["ドイツ社会民主党", "ナチス（国民社会主義ドイツ労働者党）", "ファシスト党", "ドイツ共産党"],
+        correct: 1,
+        hint: "国家社会主義を掲げ、独裁政治を行ったことで知られる政党の略称です。",
+        rationale: "ナチスは恐慌による国民の不安や反ヴェルサイユ条約の感情を煽り、選挙で第一党へと躍り出て独裁体制を築きました。ファシスト党はイタリアのムッソリーニの政党です。"
+    },
+    {
+        question: "世界恐慌の影響が日本に及び、生糸の輸出急減や農村の困窮、深刻な不況を引き起こした日本国内の恐慌を何というでしょう？",
+        options: ["金融恐慌", "昭和恐慌", "戦後恐慌", "米騒動"],
+        correct: 1,
+        hint: "当時の元号（大正の次の時代）がつけられた恐慌です。",
+        rationale: "1930年、金解禁（金本位制への復帰）と世界恐慌の波が重なったことで起きた日本史上最も深刻な恐慌です。農村では「欠食児童」や「身売り」が深刻な問題となりました。"
+    },
+    {
+        question: "ブロック経済によって国際市場から締め出された「持たざる国」が、軍事力による海外進出や独裁体制を強めた動き（ファシズムや全体主義）の帰結として、1939年に勃発した世界的大戦は何でしょう？",
+        options: ["第一次世界大戦", "第二次世界大戦", "冷戦（東西冷戦）", "日露戦争"],
+        correct: 1,
+        hint: "世界恐慌が解決できずに世界が引き裂かれた結果、引き起こされた人類史上最大の戦争です。",
+        rationale: "世界恐慌による経済のブロック化と国際対立の激化、そして「持たざる国（独・意・日）」の侵略政策が、1939年のナチス・ドイツによるポーランド侵攻を機に第二次世界大戦へと発展しました。"
+    }
+];
+
+// クイズの画面生成
+function initQuiz() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    
+    quizData.forEach((q, qIdx) => {
+        const card = document.createElement('div');
+        card.className = 'quiz-card';
+        card.id = `card-${qIdx}`;
+        
+        let optionsHTML = '';
+        q.options.forEach((opt, oIdx) => {
+            optionsHTML += `
+                <li class="option-item">
+                    <button class="option-btn" id="btn-${qIdx}-${oIdx}" onclick="selectOption(${qIdx}, ${oIdx})">
+                        ${String.fromCharCode(65 + oIdx)}: ${opt}
+                    </button>
+                </li>
+            `;
+        });
+
+        card.innerHTML = `
+            <span class="question-num">第 ${qIdx + 1} 問</span>
+            <p class="question-text">${q.question}</p>
+            <div class="hint-block">
+                <button class="hint-btn" onclick="toggleHint(${qIdx})">💡 ヒントを表示</button>
+                <div class="hint-text" id="hint-${qIdx}">${q.hint}</div>
+            </div>
+            <ul class="options-list">
+                ${optionsHTML}
+            </ul>
+            <div class="result-box" id="result-${qIdx}"></div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+// ユーザーの回答を記録する配列
+let userAnswers = new Array(quizData.length).fill(null);
+
+// 選択肢をクリックしたとき
+function selectOption(qIdx, oIdx) {
+    // すでに採点済みの場合は変更不可
+    if (document.getElementById('score-section').style.display === 'block') return;
+
+    // 同じ質問の他のボタンの選択状態を解除し、クリックされたボタンを強調
+    for (let i = 0; i < quizData[qIdx].options.length; i++) {
+        const btn = document.getElementById(`btn-${qIdx}-${i}`);
+        if (i === oIdx) {
+            btn.style.borderColor = 'var(--primary-color)';
+            btn.style.backgroundColor = '#e9ecef';
+            btn.style.fontWeight = 'bold';
+        } else {
+            btn.style.borderColor = '#e9ecef';
+            btn.style.backgroundColor = '#f8f9fa';
+            btn.style.fontWeight = 'normal';
+        }
+    }
+    userAnswers[qIdx] = oIdx;
+}
+
+// ヒントの表示切り替え
+function toggleHint(qIdx) {
+    const hintDiv = document.getElementById(`hint-${qIdx}`);
+    if (hintDiv.style.display === 'block') {
+        hintDiv.style.display = 'none';
+    } else {
+        hintDiv.style.display = 'block';
+    }
+}
+
+// 採点する
+function calculateScore() {
+    // 未回答のチェック
+    const unanswered = userAnswers.map((ans, idx) => ans === null ? idx + 1 : null).filter(v => v !== null);
+    if (unanswered.length > 0) {
+        alert(`未回答の問題があります。第 ${unanswered.join(', ')} 問に答えてください。`);
+        return;
+    }
+
+    let score = 0;
+
+    quizData.forEach((q, qIdx) => {
+        const userAns = userAnswers[qIdx];
+        const resultBox = document.getElementById(`result-${qIdx}`);
+        
+        // 全ボタンを無効化
+        for (let i = 0; i < q.options.length; i++) {
+            document.getElementById(`btn-${qIdx}-${i}`).disabled = true;
+        }
+
+        const selectedBtn = document.getElementById(`btn-${qIdx}-${userAns}`);
+        const correctBtn = document.getElementById(`btn-${qIdx}-${q.correct}`);
+
+        if (userAns === q.correct) {
+            score++;
+            selectedBtn.className = 'option-btn correct';
+            resultBox.className = 'result-box show correct-box';
+            resultBox.innerHTML = `<div class="result-title">⭕ 正解！</div><div>${q.rationale}</div>`;
+        } else {
+            selectedBtn.className = 'option-btn incorrect';
+            correctBtn.className = 'option-btn correct'; // 正解のボタンもハイライト
+            resultBox.className = 'result-box show incorrect-box';
+            resultBox.innerHTML = `<div class="result-title">❌ 不正解...（正解は ${String.fromCharCode(65 + q.correct)}）</div><div>${q.rationale}</div>`;
+        }
+    });
+
+    // 結果スコアの表示
+    document.getElementById('submit-btn').style.display = 'none';
+    const scoreSection = document.getElementById('score-section');
+    scoreSection.style.display = 'block';
+    document.getElementById('score-display').innerText = `${score} / ${quizData.length}`;
+
+    // コメントの分岐
+    let comment = '';
+    if (score === 10) comment = '素晴らしい！パーフェクトです！世界恐慌の歴史マスターですね！';
+    else if (score >= 7) comment = '高得点です！当時の世界の動きがよく頭に入っています。';
+    else if (score >= 4) comment = 'まずまずの正解率です。解説を読んで復習してみましょう。';
+    else comment = 'もう一度教科書や解説を読んで、歴史の流れをおさらいしてみましょう！';
+    
+    document.getElementById('score-comment').innerText = comment;
+    
+    // スコア画面へスクロール
+    scoreSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+// クイズのリセット
+function restartQuiz() {
+    userAnswers = new Array(quizData.length).fill(null);
+    document.getElementById('submit-btn').style.display = 'block';
+    document.getElementById('score-section').style.display = 'none';
+    initQuiz();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// 初回実行
+window.onload = initQuiz;
+</script>
+
+</body>
+</html>
