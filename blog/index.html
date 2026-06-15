@@ -1,121 +1,52 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>記事一覧 | AI活用ノート</title>
-<meta name="description" content="ChatGPTやGeminiなどのAIツールの使い方・活用術を紹介する記事一覧です。">
-
-<style>
-body{
-    font-family:"Yu Gothic",sans-serif;
-    max-width:1000px;
-    margin:auto;
-    padding:20px;
-    line-height:1.8;
-    color:#333;
-}
-
-header{
-    margin-bottom:40px;
-}
-
-.logo{
-    font-size:30px;
-    font-weight:bold;
-}
-
-.logo a{
-    text-decoration:none;
-    color:#222;
-}
-
-.article-list{
-    display:grid;
-    gap:20px;
-}
-
-.card{
-    border:1px solid #eee;
-    padding:20px;
-    border-radius:12px;
-    background:white;
-}
-
-.card h2{
-    margin-bottom:10px;
-}
-
-.card a{
-    text-decoration:none;
-    color:#2563eb;
-}
-
-.card p{
-    color:#666;
-}
-
-footer{
-    margin-top:60px;
-    text-align:center;
-    color:#777;
-}
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>記事一覧 | AI活用ノート</title>
+    <meta name="description" content="ChatGPTやGeminiなどのAIツールの使い方・活用術を紹介する記事一覧です。">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
 <header>
-    <div class="logo">
-        <a href="../index.html">AI活用ノート</a>
+    <div class="container header-inner">
+        <a href="../index.html" class="logo">AI活用ノート</a>
+        <nav>
+            <ul>
+                <li><a href="../index.html">ホーム</a></li>
+                <li><a href="index.html">記事一覧</a></li>
+                <li><a href="#">プロンプト集</a></li>
+                <li><a href="#">お問い合わせ</a></li>
+            </ul>
+        </nav>
     </div>
 </header>
 
-<h1>記事一覧</h1>
-
-<div class="article-list">
-
-    <div class="card">
-        <h2>
-            <a href="chatgpt-study-plan.html">
-                ChatGPTで勉強計画を作る方法
+<section>
+    <div class="container">
+        <h1>記事一覧</h1>
+        <div class="grid mt-4">
+            <a href="chatgpt-study-plan.html" class="card">
+                <h3>ChatGPTで勉強計画を作る方法</h3>
+                <p>ChatGPTを使って効率的な勉強スケジュールを作成する方法を解説します。</p>
             </a>
-        </h2>
-
-        <p>
-            ChatGPTを使って効率的な勉強スケジュールを作成する方法を解説します。
-        </p>
-    </div>
-
-    <div class="card">
-        <h2>
-            <a href="chatgpt-english.html">
-                ChatGPTで英作文を添削する方法
+            <a href="chatgpt-english.html" class="card">
+                <h3>ChatGPTで英作文を添削する方法</h3>
+                <p>AIを活用して英語学習を効率化する方法を紹介します。</p>
             </a>
-        </h2>
-
-        <p>
-            AIを活用して英語学習を効率化する方法を紹介します。
-        </p>
-    </div>
-
-    <div class="card">
-        <h2>
-            <a href="free-ai-tools.html">
-                無料で使えるおすすめAIツール5選
+            <a href="free-ai-tools.html" class="card">
+                <h3>無料で使えるおすすめAIツール5選</h3>
+                <p>初心者でも無料で使えるAIサービスをまとめました。</p>
             </a>
-        </h2>
-
-        <p>
-            初心者でも無料で使えるAIサービスをまとめました。
-        </p>
+        </div>
     </div>
-
-</div>
+</section>
 
 <footer>
-    <p>© AI活用ノート</p>
+    <div class="container">
+        <p>© 2026 AI活用ノート</p>
+    </div>
 </footer>
 
 </body>
