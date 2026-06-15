@@ -484,6 +484,22 @@ function restartQuiz() {
 
 // 初回実行
 window.onload = initQuiz;
+if (qIdx === 2 || qIdx === 5) {
+    const ad = document.createElement('div');
+    ad.className = 'quiz-card';
+
+    ad.innerHTML = `
+        <div style="text-align:center;font-size:12px;color:#999;margin-bottom:8px;">
+            スポンサーリンク
+        </div>
+    `;
+
+    const script = document.createElement('script');
+    script.src = 'https://adm.shinobi.jp/s/899802e9af0817d105f0e1d70c0ba386';
+
+    ad.appendChild(script);
+    container.appendChild(ad);
+}
 </script>
 
 </body>
