@@ -355,47 +355,30 @@ const quizData = [
 // クイズの画面生成
 function initQuiz() {
     const container = document.getElementById('quiz-container');
+
+    // ★重要：広告を退避
+    const ad1 = document.getElementById('ad1');
+    const ad2 = document.getElementById('ad2');
+
     container.innerHTML = '';
 
     quizData.forEach((q, qIdx) => {
         const card = document.createElement('div');
         card.className = 'quiz-card';
-        card.id = `card-${qIdx}`;
 
-        let optionsHTML = '';
-        q.options.forEach((opt, oIdx) => {
-            optionsHTML += `
-                <li class="option-item">
-                    <button class="option-btn" id="btn-${qIdx}-${oIdx}" onclick="selectOption(${qIdx}, ${oIdx})">
-                        ${String.fromCharCode(65 + oIdx)}: ${opt}
-                    </button>
-                </li>
-            `;
-        });
-
-        card.innerHTML = `
-            <span class="question-num">第 ${qIdx + 1} 問</span>
-            <p class="question-text">${q.question}</p>
-            <ul class="options-list">${optionsHTML}</ul>
-        `;
-
+        card.innerHTML = `<p>${q.question}</p>`;
         container.appendChild(card);
 
-        // ⭐ここがポイント
-        if (qIdx === 2 || qIdx === 5) {
-            const ad = document.createElement('div');
-            ad.className = 'quiz-card';
-            ad.style.textAlign = 'center';
+        // ★ここがポイント
+        if (qIdx === 2) {
+            container.appendChild(ad1);
+        }
 
-            const script = document.createElement('script');
-            script.src = 'https://adm.shinobi.jp/s/899802e9af0817d105f0e1d70c0ba386';
-
-            ad.appendChild(script);
-            container.appendChild(ad);
+        if (qIdx === 5) {
+            container.appendChild(ad2);
         }
     });
 }
-
 // ユーザーの回答を記録する配列
 let userAnswers = new Array(quizData.length).fill(null);
 
