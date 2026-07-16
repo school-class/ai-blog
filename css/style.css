@@ -211,6 +211,16 @@ article li {
     font-size: 0.875rem;
 }
 
+/* Article Images */
+.article-image {
+    width: 100%;
+    max-height: 450px;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
 /* Code and Boxes */
 .box {
     background-color: var(--bg-color);
