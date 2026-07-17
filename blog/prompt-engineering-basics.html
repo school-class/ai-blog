@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>初心者向けプロンプトエンジニアリング基本の「型」とコツ | AI活用ノート</title>
+    <meta name="description" content="AIから思い通りの回答を引き出すための「プロンプトエンジニアリング」の基本テクニック。劇的に回答の質を上げる「指示書のテンプレート」を大公開。">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header>
+    <div class="container header-inner">
+        <a href="../index.html" class="logo">AI活用ノート</a>
+        <nav>
+            <ul>
+                <li><a href="../index.html">ホーム</a></li>
+                <li><a href="index.html">記事一覧</a></li>
+                <li><a href="../prompts.html">プロンプト集</a></li>
+                <li><a href="../contact.html">お問い合わせ</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="container mt-4">
+    <article>
+        <div class="article-meta">更新日: 2026-06-30</div>
+        <h1>初心者向けプロンプトエンジニアリング基本の「型」とコツ</h1>
+
+        <!-- High-quality Unsplash Image for AI/Code/Futuristic -->
+        <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80" alt="Futuristic neon glowing circuit patterns with abstract intelligence visualization" class="article-image">
+
+        <p>
+            ChatGPTやGeminiなどのAIツールを使ってみたけれど、「思ったような回答が返ってこない」「ありきたりで薄い回答ばかりで使えない」と、途中で諦めてしまったことはありませんか？
+        </p>
+
+        <p>
+            AIが優秀な仕事をしてくれるかどうかは、実はAIの能力以上に、あなたが与える<strong>「プロンプト（指示文）」</strong>の書き方に大きく依存しています。
+            このAIに対する指示の出し方を工夫し、AIの持てるパフォーマンスを120%引き出す技術を<strong>「プロンプトエンジニアリング」</strong>と呼びます。
+        </p>
+
+        <p>
+            難しそうな言葉に聞こえるかもしれませんが、いくつかの「基本の型」さえ覚えてしまえば、専門知識のない初心者の方でも、今日から劇的にAIの回答のクオリティを上げることができます。
+            この記事では、明日から仕事や勉強で大活躍する、プロンプトデザインの極意をステップバイステップで徹底解説します！
+        </p>
+
+        <div class="box">
+            <strong>この記事でわかること</strong>
+            <ul>
+                <li>なぜプロンプトの書き方一つでAIの頭脳レベルが変わるのか</li>
+                <li>これだけ覚えれば完璧！最も効果的な「指示書の4大要素」</li>
+                <li>回答ミスを極限まで減らす「Few-Shotプロンプティング（具体例の提示）」</li>
+                <li>コピペして穴埋めするだけで動く、最強のプロンプト構成テンプレート</li>
+            </ul>
+        </div>
+
+        <h2>プロンプトエンジニアリングとは？AIは「新人アシスタント」</h2>
+        <p>
+            AIに指示を出すときのイメージは、配属されたばかりの<strong>「非常に物知りで真面目だけど、指示があいまいだと勝手な判断で的外れな資料を作ってしまう新人アシスタント」</strong>を育てる感覚にとても近いです。
+        </p>
+        <p>
+            たとえば、あなたがそのアシスタントに「新商品の広告の件、適当に考えておいて」と頼んだら、ターゲットも予算も媒体もズレた提案書が上がってくるのは想像できますよね。
+            AIに対しても同様に、「前提」「制約条件」「具体的なゴール」をセットにして明確に伝える必要があります。この明確化の手法こそがプロンプトエンジニアリングの本質です。
+        </p>
+
+        <h2>すべてのベースとなる「プロンプト4大必須要素」</h2>
+        <p>
+            クオリティの高い回答を引き出すために、以下の4つの要素をプロンプト内に盛り込むことを意識しましょう。
+        </p>
+        <ol>
+            <li><strong>【役割（Role）】：</strong>AIに「あなたはどんな専門家ですか？」を設定します。（例：プロのキャリアアドバイザー、SEOライター）</li>
+            <li><strong>【前提（Context）】：</strong>背景情報、ターゲット、目的などを定義します。（例：転職を考える20代後半の営業職へ向けたメッセージ）</li>
+            <li><strong>【制約条件（Constraints）】：</strong>文字数、トーン、使用禁止の単語、出力形式を指定します。（例：箇条書きで3点以内、明るくポジティブな口調、Markdown形式で出力）</li>
+            <li><strong>【入力情報（Input Data）】：</strong>処理してほしい生の文章や課題を渡します。（例：[ここに履歴書の文章を入力]）</li>
+        </ol>
+
+        <h2>コピペ用：劇的に品質を向上させる「万能プロンプトテンプレート」</h2>
+        <p>
+            どのようなビジネスシーンでも活用可能な、4大要素に基づいた構造化プロンプトテンプレートです。メモ帳等に保存し、[ ]内を書き換えていつでもご活用ください。
+        </p>
+
+        <div class="prompt">
+            <strong>【万能構造化プロンプトテンプレート】</strong><br><br>
+            # 役割<br>
+            あなたは、[設定したい専門家の役割（例：プロのWebマーケター）]として振る舞ってください。<br><br>
+            # 目的<br>
+            以下の[入力情報]について、[最終的な成果物のゴール（例：競合調査を元にした広告文作成）]を行ってください。<br><br>
+            # 制約条件<br>
+            - 語尾は「[です・ます調、またはである調]」で統一すること。<br>
+            - 出力は[箇条書き / 表形式 / MarkdownのH2-H3構成]でわかりやすく整理すること。<br>
+            - 文字数は全体で[500文字程度]を目安とすること。<br>
+            - [専門用語は解説を添える / 具体的なステップを示す]こと。<br><br>
+            # 入力情報<br>
+            [処理させたい対象、データ、文章などをここに記述]
+        </div>
+
+        <h2>AIを調教する：具体例を見せる「Few-Shot」</h2>
+        <p>
+            「明るい口調」「親しみやすい文体」などの言葉の解釈は、AIモデルによってズレが生じることがあります。
+            その場合、プロンプトの中に<strong>「こういう回答をしてほしい」という実例（サンプル）を1～2個あらかじめ提示しておくこと（Few-Shotプロンプティング）</strong>で、AIはパターンの類似性を認識し、100%思い通りのフォーマットや表現方法で回答を返してくるようになります。
+        </p>
+
+        <!-- admax -->
+        <div class="ad-container">
+            <span class="ad-label">スポンサーリンク</span>
+            <script src="https://adm.shinobi.jp/s/899802e9af0817d105f0e1d70c0ba386"></script>
+        </div>
+        <!-- admax -->
+
+        <h2>まとめ</h2>
+        <p>
+            プロンプトエンジニアリングは、決してプログラマーや技術者だけの特別な技術ではありません。
+            言葉のコミュニケーションを丁寧に行うという、私たちが普段のビジネスや人間関係で行っていることと本質はまったく同じです。
+            ぜひ、AIを最高の新人アシスタントとして輝かせるために、今日から「役割」と「制約条件」の指定を始めてみてください。あなたの指示にAIが驚くほどのクオリティで応えてくれるのを楽しんでください！
+        </p>
+    </article>
+
+    <section class="related">
+        <h2>関連記事</h2>
+        <div class="grid">
+            <a href="claude-writing.html" class="card">
+                <h3>Claudeで自然な文章を作成・推敲する方法</h3>
+                <p>人間らしく自然な文章を作成・推敲できるAI、Claudeの使い方を解説します。</p>
+            </a>
+            <a href="chatgpt-study-plan.html" class="card">
+                <h3>ChatGPTで勉強計画を作る方法</h3>
+                <p>AIを使って効率的な学習スケジュールを作成する方法を紹介。</p>
+            </a>
+        </div>
+    </section>
+</div>
+
+<footer>
+    <div class="container">
+        <p>© 2026 AI活用ノート | <a href="../privacy.html">プライバシーポリシー</a> | <a href="../contact.html">お問い合わせ</a></p>
+    </div>
+</footer>
+
+</body>
+</html>
